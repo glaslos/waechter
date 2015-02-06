@@ -1,25 +1,7 @@
 import gevent.monkey
 gevent.monkey.patch_all(thread=False)
 
-import json
-
 import gevent
-import requests
-
-from pprint import pprint
-
-
-def report_data(data_points):
-    stats = list()
-    for key, value in data_points.items():
-        stats.append([key, value])
-    data = {
-        "name": "asgard.queue.gauges",
-        "columns": ["queue_name", "value"],
-        "points": stats
-    }
-    pprint(data)
-    requests.post('http://172.17.2.33:8086/db/asgarddb/series?u=root&p=root', data=json.dumps([data, ]))
 
 
 class BaseJob(object):
