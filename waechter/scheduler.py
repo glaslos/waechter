@@ -1,9 +1,6 @@
-import gevent.monkey
-gevent.monkey.patch_all(thread=False)
-
+import os
 import sys
-
-import gevent
+import time
 
 
 class BaseJob(object):
@@ -19,10 +16,10 @@ class JobScheduler(object):
 
     @classmethod
     def job_spawner(cls, job_instance):
-        pid = gevent.fork()
+        pid = os.fork()
         if pid == 0:
             # child
-            gevent.spawn(job_instance.work).join()
+            job_instance.work()
             # exit the whole fork
             sys.exit(0)
 
@@ -38,7 +35,7 @@ class JobScheduler(object):
         sleep_count = 0
         while True:
             try:
-                gevent.sleep(1)
+                time.sleep(1)
                 sleep_count += 1
                 for interval, job in jobs_dict.items():
                     # spawn all jobs that match the current interval
@@ -48,7 +45,7 @@ class JobScheduler(object):
                 if sleep_count > 0 and sleep_count % max_interval == 0:
                     sleep_count = 0
             except KeyboardInterrupt:
-                print 'bye'
+                print('bye')
                 break
 
 

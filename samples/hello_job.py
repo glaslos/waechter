@@ -8,7 +8,7 @@ class HelloJob1(waechter.scheduler.BaseJob):
 
     @classmethod
     def work(cls):
-        print 'hello work 1'
+        print('hello work 1')
 
 
 class HelloJob2(waechter.scheduler.BaseJob):
@@ -18,7 +18,7 @@ class HelloJob2(waechter.scheduler.BaseJob):
 
     @classmethod
     def work(cls):
-        print 'hello work 2'
+        print('hello work 2')
 
 
 if __name__ == '__main__':
