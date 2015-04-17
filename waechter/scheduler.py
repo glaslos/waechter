@@ -51,6 +51,10 @@ class JobScheduler(object):
                 print('bye')
                 break
 
+    def run_once(self):
+        for job_instance in self.job_instances:
+            self.job_spawner(job_instance)
+
 
 if __name__ == '__main__':
     scheduler = JobScheduler()
