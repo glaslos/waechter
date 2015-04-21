@@ -24,6 +24,8 @@ class JobScheduler(object):
             job_instance.work()
             # exit the whole fork
             sys.exit(0)
+        else:
+            return pid
 
     def run(self):
         jobs_dict = defaultdict(list)
@@ -52,8 +54,11 @@ class JobScheduler(object):
                 break
 
     def run_once(self):
+        pids = list()
         for job_instance in self.job_instances:
-            self.job_spawner(job_instance)
+            pids.append(self.job_spawner(job_instance))
+        for pid in pids:
+            os.waitpid(pid, 0)
 
 
 if __name__ == '__main__':
