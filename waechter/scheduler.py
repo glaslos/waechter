@@ -17,11 +17,11 @@ class JobScheduler(object):
         self.job_instances = [job() for job in BaseJob.__subclasses__()]
 
     @classmethod
-    def job_spawner(cls, job_instance):
+    def job_spawner(cls, job_instance, **kwargs):
         pid = os.fork()
         if pid == 0:
             # child
-            job_instance.work()
+            job_instance.work(**kwargs)
             # exit the whole fork
             sys.exit(0)
         else:
@@ -53,10 +53,10 @@ class JobScheduler(object):
                 print('bye')
                 break
 
-    def run_once(self):
+    def run_once(self, **kwargs):
         pids = list()
         for job_instance in self.job_instances:
-            pids.append(self.job_spawner(job_instance))
+            pids.append(self.job_spawner(job_instance, **kwargs))
         for pid in pids:
             os.waitpid(pid, 0)
 
