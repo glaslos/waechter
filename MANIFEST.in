@@ -1,6 +1,9 @@
-recursive-exclude tests *
 include requirements.txt
-include README.rst
-include Changelog.txt
+include README.md
+include LICENSE.txt
+
 recursive-include waechter *
 recursive-exclude waechter *.pyc
+
+recursive-exclude tests *
+recursive-exclude samples *
