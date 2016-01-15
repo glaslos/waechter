@@ -2,7 +2,13 @@
 
 **Job Scheduling Helper**
 
-See samples directory for some example usage.
+## Installing
+
+`pip install waechter`
+
+## Usage
+
+See samples directory for example usage.
 
 Simple example:
 
