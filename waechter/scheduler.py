@@ -24,6 +24,12 @@ import psutil
 from collections import defaultdict
 
 
+try:
+    perf_counter = time.perf_counter
+except AttributeError:
+    perf_counter = time.clock
+
+
 class BaseJob(object):
     def __init__(self, interval=5):
         self.interval = interval
@@ -85,10 +91,10 @@ class JobScheduler(object):
         max_interval = max(jobs_dict.keys())
         sleep_count = 0
         worker_pids = set()
-        init = time.perf_counter()
+        init = perf_counter()
         while True:
             try:
-                time.sleep(1 - ((time.perf_counter() - init) % 1))
+                time.sleep(1 - ((perf_counter() - init) % 1))
                 worker_pids = self._reap_pids(worker_pids)
                 sleep_count += 1
                 for interval, jobs in jobs_dict.items():
